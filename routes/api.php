@@ -13,17 +13,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * Rota = api/auth/login
+ */
 Route::post('auth/login', 'Api\AuthController@login');
 
-Route::group([
-    'middleware' => 'apiJwt',
-    'prefix' => 'auth'
-], function () {
+/**
+ * Rota = api/auth/
+ */
+Route::group(['middleware' => 'apiJwt', 'prefix' => 'auth'], function () {
+    Route::post('perfil', 'Api\AuthController@perfil');
     Route::post('logout', 'Api\AuthController@logout');
     Route::post('refresh', 'Api\AuthController@refresh');
-    Route::post('perfil', 'Api\AuthController@perfil');
 });
 
-Route::group(['middleware' => ['apiJwt']], function () {
-    Route::get('users', 'Api\UserController@index');
+/**
+ * Rota = api/users/
+ */
+Route::group(['middleware' => 'apiJwt', 'prefix' => 'users'], function () {
+    Route::get('', 'Api\UserController@index');
+    Route::post('store', 'Api\UserController@store');
+    Route::get('show/{id}', 'Api\UserController@show');
+    Route::put('update/{id}', 'Api\UserController@update');
+    Route::delete('delete/{id}', 'Api\UserController@delete');
 });

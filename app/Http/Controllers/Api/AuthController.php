@@ -3,27 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
 
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
+     * AuthController constructor.
      */
     public function __construct()
     {
     }
 
     /**
-     * Get a JWT token via given credentials.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function login(Request $request)
     {
@@ -31,23 +26,31 @@ class AuthController extends Controller
         if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        $user = auth('api')->user();
+        if ($user->status === false ||
+            $user->status === 'false' ||
+            $user->status === 0 ||
+            $user->status === '0') {
+            return response()->json(['error' => 'Usuário inativo!'], 401);
+        }
+
         return $this->respondWithToken($token);
     }
 
     /**
-     * Get the authenticated User
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function perfil()
     {
-        return response()->json($this->guard()->user());
+        $user = auth('api')->user();
+        $user->roles = $user['roles'];
+
+        return response()->json($user);
     }
 
     /**
-     * Log the user out (Invalidate the token)
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logout()
     {
@@ -56,21 +59,16 @@ class AuthController extends Controller
     }
 
     /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function refresh()
     {
-        return $this->respondWithToken($this->guard()->refresh());
+        return $this->respondWithToken(auth('api')->refresh());
     }
 
     /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @param $token
+     * @return JsonResponse
      */
     protected function respondWithToken($token)
     {
@@ -79,15 +77,5 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
-    }
-
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\Guard
-     */
-    public function guard()
-    {
-        return Auth::guard();
     }
 }

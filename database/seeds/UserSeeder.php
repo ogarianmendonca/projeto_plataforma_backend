@@ -1,8 +1,10 @@
 <?php
 
+use App\Entities\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Entities\User;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -13,18 +15,28 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        User::truncate();
+        DB::table('role_user')->truncate();
+
+        $adminRole = Role::where('name', 'ADMINISTRADOR')->first();
+        $userRole = Role::where('name', 'USUARIO')->first();
+
+        $admin = User::create([
             'name' => 'Luigi Bros',
             'email' => 'luigi@email.com',
             'password' => Hash::make('123456'),
-            'ativo' => true,
+            'status' => true,
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => 'Mario Bros',
             'email' => 'mario@email.com',
             'password' => Hash::make('123456'),
-            'ativo' => true,
+            'status' => true,
         ]);
+
+        $admin->roles()->attach($adminRole);
+        $admin->roles()->attach($userRole);
+        $user->roles()->attach($userRole);
     }
 }
