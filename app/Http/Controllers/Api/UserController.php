@@ -90,7 +90,7 @@ class UserController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function delete($id)
+    public function destroy($id)
     {
         try {
             $user = $this->userRepository->deleteUser($id);

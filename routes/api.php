@@ -22,9 +22,9 @@ Route::post('auth/login', 'Api\AuthController@login');
  * Rota = api/auth/
  */
 Route::group(['middleware' => 'apiJwt', 'prefix' => 'auth'], function () {
-    Route::post('perfil', 'Api\AuthController@perfil');
-    Route::post('logout', 'Api\AuthController@logout');
-    Route::post('refresh', 'Api\AuthController@refresh');
+    Route::get('perfil', 'Api\AuthController@perfil');
+    Route::get('logout', 'Api\AuthController@logout');
+    Route::get('refresh', 'Api\AuthController@refresh');
 });
 
 /**
@@ -35,5 +35,5 @@ Route::group(['middleware' => 'apiJwt', 'prefix' => 'users'], function () {
     Route::post('store', 'Api\UserController@store');
     Route::get('show/{id}', 'Api\UserController@show');
     Route::put('update/{id}', 'Api\UserController@update');
-    Route::delete('delete/{id}', 'Api\UserController@delete');
+    Route::delete('delete/{id}', 'Api\UserController@destroy');
 });
