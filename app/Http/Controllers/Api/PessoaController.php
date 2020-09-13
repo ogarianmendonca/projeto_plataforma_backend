@@ -3,63 +3,99 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\PessoaInterface;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
+/**
+ * Class PessoaController
+ * @package App\Http\Controllers\Api
+ */
 class PessoaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @var PessoaInterface
+     */
+    private $pessoaRepository;
+
+    /**
+     * PessoaController constructor.
      *
-     * @return Response
+     * @param PessoaInterface $pessoaRepository
+     */
+    public function __construct(PessoaInterface $pessoaRepository)
+    {
+        $this->pessoaRepository = $pessoaRepository;
+    }
+
+    /**
+     * @return JsonResponse
      */
     public function index()
     {
-        //
+        try {
+            $pessoa = $this->pessoaRepository->getAll();
+            return response()->json($pessoa);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Dados não encontrados!']);
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $pessoa = $this->pessoaRepository->create($request);
+            return response()->json(['message' => 'Cadastrado com sucesso!', 'pessoa' => $pessoa]);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Erro ao cadastrar!']);
+        }
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
+     * @param $id
+     * @return JsonResponse
      */
     public function show($id)
     {
-        //
+        try {
+            $pessoa = $this->pessoaRepository->getById($id);
+            return response()->json(['pessoa' => $pessoa]);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Dados não encontrados!']);
+        }
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @param $id
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $pessoa = $this->pessoaRepository->update($request, $id);
+            return response()->json(['message' => 'Editado com sucesso!', 'pessoa' => $pessoa]);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Erro ao editar!']);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * @param $id
+     * @return JsonResponse
      */
     public function destroy($id)
     {
-        //
+        try {
+            $pessoa = $this->pessoaRepository->delete($id);
+            return response()->json(['message' => 'Excluído com sucesso!', 'pessoa' => $pessoa]);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Erro ao excluir!']);
+        }
     }
 }

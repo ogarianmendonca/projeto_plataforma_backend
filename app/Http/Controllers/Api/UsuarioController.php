@@ -3,31 +3,31 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\UsuarioInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Repositories\UserRepository;
 use Exception;
 
 /**
- * Class UserController
+ * Class UsuarioController
  * @package App\Http\Controllers\Api
  */
-class UserController extends Controller
+class UsuarioController extends Controller
 {
 
     /**
-     * @var UserRepository
+     * @var UsuarioInterface
      */
-    private $userRepository;
+    private $usuarioRepository;
 
     /**
-     * UserController constructor.
+     * UsuarioController constructor.
      *
-     * @param UserRepository $userRepository
+     * @param UsuarioInterface $usuarioRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UsuarioInterface $usuarioRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->usuarioRepository = $usuarioRepository;
     }
 
     /**
@@ -36,7 +36,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = $this->userRepository->getAllUsers();
+            $users = $this->usuarioRepository->getAll();
             return response()->json($users);
         } catch (Exception $e) {
             return response()->json(['message' => 'Dados não encontrados!']);
@@ -50,8 +50,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->userRepository->createUser($request);
-            return response()->json(['message' => 'Usuário cadastrado!']);
+            $user = $this->usuarioRepository->create($request);
+            return response()->json(['message' => 'Cadastrado com sucesso!', 'user' => $user]);
         } catch (Exception $e) {
             return response()->json(['message' => 'Erro ao cadastrar!']);
         }
@@ -64,10 +64,10 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $user = $this->userRepository->getUserForId($id);
+            $user = $this->usuarioRepository->getById($id);
             return response()->json(['user' => $user]);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Usuário não encontrado']);
+            return response()->json(['message' => 'Dados não encontrados!']);
         }
     }
 
@@ -79,8 +79,8 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $user = $this->userRepository->updateUser($request, $id);
-            return response()->json(['message' => 'Usuário editado!', 'user' => $user]);
+            $user = $this->usuarioRepository->update($request, $id);
+            return response()->json(['message' => 'Editado com sucesso!', 'user' => $user]);
         } catch (Exception $e) {
             return response()->json(['message' => 'Erro ao editar!']);
         }
@@ -93,8 +93,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $user = $this->userRepository->deleteUser($id);
-            return response()->json(['message' => 'Usuário excluído!', 'user' => $user]);
+            $user = $this->usuarioRepository->delete($id);
+            return response()->json(['message' => 'Excluído com sucesso!', 'user' => $user]);
         } catch (Exception $e) {
             return response()->json(['message' => 'Erro ao excluir!']);
         }

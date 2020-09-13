@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -74,5 +75,13 @@ class User extends Authenticatable implements JWTSubject
     public function roles()
     {
         return $this->belongsToMany('App\Entities\Role');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function pessoa()
+    {
+        return $this->hasOne('App\Entities\Pessoa','usuario_id');
     }
 }

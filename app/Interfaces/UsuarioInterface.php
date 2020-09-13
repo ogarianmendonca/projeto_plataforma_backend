@@ -3,38 +3,38 @@
 namespace App\Interfaces;
 
 /**
- * Interface UserInterface
+ * Interface UsuarioInterface
  * @package App\Interfaces
  */
-interface UserInterface
+interface UsuarioInterface
 {
     /**
      * @return mixed
      */
-    public function getAllUsers();
+    public function getAll();
 
     /**
      * @param $params
      * @return mixed
      */
-    public function createUser($params);
+    public function create($params);
 
     /**
      * @param $id
      * @return mixed
      */
-    public function getUserForId($id);
+    public function getById($id);
 
     /**
      * @param $params
      * @param $id
      * @return mixed
      */
-    public function updateUser($params, $id);
+    public function update($params, $id);
 
     /**
      * @param $id
      * @return mixed
      */
-    public function deleteUser($id);
+    public function delete($id);
 }

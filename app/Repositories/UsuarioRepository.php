@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\User;
-use App\Interfaces\UserInterface;
+use App\Interfaces\UsuarioInterface;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,44 +11,45 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Class UserRepository
+ * Class UsuarioRepository
  * @package App\Repositories
  */
-class UserRepository implements UserInterface
+class UsuarioRepository implements UsuarioInterface
 {
     /**
      * @var User
      */
-    private $user;
+    private $usuario;
 
     /**
-     * UserRepository constructor.
-     * @param User $user
+     * UsuarioRepository constructor.
+     *
+     * @param User $usuario
      */
-    public function __construct(User $user)
+    public function __construct(User $usuario)
     {
-        $this->user = $user;
+        $this->usuario = $usuario;
     }
 
     /**
      * @return Builder[]|Collection
      * @throws Exception
      */
-    public function getAllUsers()
+    public function getAll()
     {
         try {
-            return User::with('roles')->get();
+            return User::with(['roles', 'pessoa'])->get();
         } catch (Exception $e){
-            throw new Exception();
+            throw new Exception($e->getMessage());
         }
     }
 
     /**
      * @param $params
-     * @return bool
+     * @return User|mixed
      * @throws Exception
      */
-    public function createUser($params)
+    public function create($params)
     {
         try {
             $newUser = new User();
@@ -59,9 +60,9 @@ class UserRepository implements UserInterface
             $newUser->save();
             $newUser->roles()->attach($params->roles);
 
-            return true;
+            return $newUser;
         } catch (Exception $e){
-            throw new Exception();
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -70,12 +71,12 @@ class UserRepository implements UserInterface
      * @return Builder|Builder[]|Collection|Model|null
      * @throws Exception
      */
-    public function getUserForId($id)
+    public function getById($id)
     {
         try {
-            return User::with('roles')->find($id);
+            return User::with(['roles', 'pessoa'])->find($id);
         } catch (Exception $e){
-            throw new Exception();
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -85,7 +86,7 @@ class UserRepository implements UserInterface
      * @return Builder|Builder[]|Collection|Model|null
      * @throws Exception
      */
-    public function updateUser($params, $id)
+    public function update($params, $id)
     {
         try {
             $user = User::find($id);
@@ -99,11 +100,13 @@ class UserRepository implements UserInterface
             }
             $user->save();
 
-            $user->roles()->sync($params->roles);
+            if ($params->roles) {
+                $user->roles()->sync($params->roles);
+            }
 
             return $user;
         } catch (Exception $e){
-            throw new Exception();
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -112,7 +115,7 @@ class UserRepository implements UserInterface
      * @return mixed
      * @throws Exception
      */
-    public function deleteUser($id)
+    public function delete($id)
     {
         try {
             $user = User::find($id);
@@ -120,7 +123,7 @@ class UserRepository implements UserInterface
 
             return $user;
         } catch (Exception $e){
-            throw new Exception();
+            throw new Exception($e->getMessage());
         }
     }
 }
