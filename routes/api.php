@@ -36,6 +36,7 @@ Route::group(['middleware' => 'apiJwt', 'prefix' => 'usuarios'], function () {
     Route::get('show/{id}', 'Api\UsuarioController@show');
     Route::put('update/{id}', 'Api\UsuarioController@update');
     Route::delete('delete/{id}', 'Api\UsuarioController@destroy');
+    Route::post('upload', 'Api\UsuarioController@upload');
 });
 
 /**

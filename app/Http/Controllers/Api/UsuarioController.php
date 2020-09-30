@@ -33,7 +33,7 @@ class UsuarioController extends Controller
     /**
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         try {
             $users = $this->usuarioRepository->getAll();
@@ -47,7 +47,7 @@ class UsuarioController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         try {
             $user = $this->usuarioRepository->create($request);
@@ -61,7 +61,7 @@ class UsuarioController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
         try {
             $user = $this->usuarioRepository->getById($id);
@@ -76,7 +76,7 @@ class UsuarioController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
         try {
             $user = $this->usuarioRepository->update($request, $id);
@@ -90,13 +90,27 @@ class UsuarioController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         try {
             $user = $this->usuarioRepository->delete($id);
             return response()->json(['message' => 'Excluído com sucesso!', 'user' => $user]);
         } catch (Exception $e) {
             return response()->json(['message' => 'Erro ao excluir!']);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function upload(Request $request): JsonResponse
+    {
+        try {
+            $retorno = $this->usuarioRepository->upload($request);
+            return response()->json(['image' => $retorno]);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Erro ao criar imagem!']);
         }
     }
 }

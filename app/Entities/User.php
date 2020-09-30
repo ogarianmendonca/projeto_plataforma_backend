@@ -13,6 +13,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * Class User
  * @package App\Entities
  * @method static find($id)
+ * @method static create(array $array)
+ * @method static truncate()
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -28,7 +30,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'status'
+        'status',
+        'image'
     ];
 
     /**
@@ -64,7 +67,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
@@ -72,7 +75,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * @return BelongsToMany
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany('App\Entities\Role');
     }
@@ -80,7 +83,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      * @return HasOne
      */
-    public function pessoa()
+    public function pessoa(): HasOne
     {
         return $this->hasOne('App\Entities\Pessoa','usuario_id');
     }

@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
             'email' => 'luigi@email.com',
             'password' => Hash::make('123456'),
             'status' => true,
+            'image' => 'sem_imagem',
         ]);
 
         $user = User::create([
@@ -33,6 +34,7 @@ class UserSeeder extends Seeder
             'email' => 'mario@email.com',
             'password' => Hash::make('123456'),
             'status' => true,
+            'image' => 'sem_imagem',
         ]);
 
         $admin->roles()->attach($adminRole);

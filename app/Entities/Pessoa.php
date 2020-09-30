@@ -29,7 +29,7 @@ class Pessoa extends Model
         'pais',
         'complemento',
         'tipo_doc',
-        'doc_principal',
+        'num_doc',
         'data_nasc',
         'sexo',
         'telefone'
@@ -38,7 +38,7 @@ class Pessoa extends Model
     /**
      * @return HasOne
      */
-    public function usuario()
+    public function usuario(): HasOne
     {
         return $this->hasOne('App\Entities\User','id', 'usuario_id');
     }

@@ -52,15 +52,17 @@ class UsuarioRepository implements UsuarioInterface
     public function create($params)
     {
         try {
-            $newUser = new User();
-            $newUser->name = $params->name;
-            $newUser->email = $params->email;
-            $newUser->status = true;
-            $newUser->password = Hash::make($params->password);
-            $newUser->save();
-            $newUser->roles()->attach($params->roles);
+            $novoUsuario = new User();
+            $novoUsuario->name = $params->name;
+            $novoUsuario->email = $params->email;
+            $novoUsuario->status = true;
+            $novoUsuario->password = Hash::make($params->password);
+            $novoUsuario->image = $params->image == null ? 'sem_imagem' : $params->image;
 
-            return $newUser;
+            $novoUsuario->save();
+            $novoUsuario->roles()->attach($params->roles);
+
+            return $novoUsuario;
         } catch (Exception $e){
             throw new Exception($e->getMessage());
         }
@@ -89,22 +91,27 @@ class UsuarioRepository implements UsuarioInterface
     public function update($params, $id)
     {
         try {
-            $user = User::find($id);
-            $user->name = $params->name;
-            $user->email = $params->email;
-            $user->status = $params->status;
+            $usuario = User::find($id);
+            $usuario->name = $params->name;
+            $usuario->email = $params->email;
+            $usuario->status = $params->status;
+
             if ($params->password){
                 Hash::make($params->password);
             } else {
                 unset($params->password);
             }
-            $user->save();
 
-            if ($params->roles) {
-                $user->roles()->sync($params->roles);
+            if (!empty($params->image)){
+                $usuario->image = $params->image;
             }
 
-            return $user;
+            $usuario->save();
+            if ($params->roles) {
+                $usuario->roles()->sync($params->roles);
+            }
+
+            return $usuario;
         } catch (Exception $e){
             throw new Exception($e->getMessage());
         }
@@ -118,12 +125,24 @@ class UsuarioRepository implements UsuarioInterface
     public function delete($id)
     {
         try {
-            $user = User::find($id);
-            $user->delete();
+            $usuario = User::find($id);
+            $usuario->delete();
 
-            return $user;
+            return $usuario;
         } catch (Exception $e){
             throw new Exception($e->getMessage());
+        }
+    }
+
+    public function upload($dadosArquivo): string
+    {
+        if ($dadosArquivo->hasFile('image')) {
+            $imagem = $dadosArquivo->file('image');
+            $ext = $imagem->guessClientExtension();
+            $data = file_get_contents($imagem);
+            return 'data:image/' . $ext . ';base64,' . base64_encode($data);
+        } else {
+            return 'sem_imagem';
         }
     }
 }

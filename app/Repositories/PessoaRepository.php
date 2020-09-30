@@ -62,7 +62,7 @@ class PessoaRepository implements PessoaInterface
             $novaPessoa->pais = $params->pais;
             $novaPessoa->complemento = $params->complemento;
             $novaPessoa->tipo_doc = $params->tipo_doc;
-            $novaPessoa->doc_principal = $params->doc_principal;
+            $novaPessoa->num_doc = $params->num_doc;
             $novaPessoa->data_nasc = $params->data_nasc;
             $novaPessoa->sexo = $params->sexo;
             $novaPessoa->telefone = $params->telefone;

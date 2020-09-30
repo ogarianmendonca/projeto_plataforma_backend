@@ -37,4 +37,10 @@ interface UsuarioInterface
      * @return mixed
      */
     public function delete($id);
+
+    /**
+     * @param $params
+     * @return mixed
+     */
+    public function upload($params);
 }

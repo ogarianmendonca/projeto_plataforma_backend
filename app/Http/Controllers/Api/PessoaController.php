@@ -32,7 +32,7 @@ class PessoaController extends Controller
     /**
      * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         try {
             $pessoa = $this->pessoaRepository->getAll();
@@ -46,7 +46,7 @@ class PessoaController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         try {
             $pessoa = $this->pessoaRepository->create($request);
@@ -60,7 +60,7 @@ class PessoaController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
         try {
             $pessoa = $this->pessoaRepository->getById($id);
@@ -75,7 +75,7 @@ class PessoaController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
         try {
             $pessoa = $this->pessoaRepository->update($request, $id);
@@ -89,7 +89,7 @@ class PessoaController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         try {
             $pessoa = $this->pessoaRepository->delete($id);
