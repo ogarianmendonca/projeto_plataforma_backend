@@ -65,7 +65,7 @@ class UsuarioController extends Controller
     {
         try {
             $user = $this->usuarioRepository->getById($id);
-            return response()->json(['user' => $user]);
+            return response()->json($user);
         } catch (Exception $e) {
             return response()->json(['message' => 'Dados não encontrados!']);
         }

@@ -49,3 +49,10 @@ Route::group(['middleware' => 'apiJwt', 'prefix' => 'pessoas'], function () {
     Route::put('update/{id}', 'Api\PessoaController@update');
     Route::delete('delete/{id}', 'Api\PessoaController@destroy');
 });
+
+/**
+ * Rola = api/roles/
+ */
+Route::group(['middleware' => 'apiJwt', 'prefix' => 'roles'], function () {
+    Route::get('', 'Api\RoleController@index');
+});

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\Pessoa;
 use App\Entities\User;
 use App\Interfaces\UsuarioInterface;
 use Exception;
@@ -39,7 +40,7 @@ class UsuarioRepository implements UsuarioInterface
     {
         try {
             return User::with(['roles', 'pessoa'])->get();
-        } catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -63,7 +64,7 @@ class UsuarioRepository implements UsuarioInterface
             $novoUsuario->roles()->attach($params->roles);
 
             return $novoUsuario;
-        } catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -77,7 +78,7 @@ class UsuarioRepository implements UsuarioInterface
     {
         try {
             return User::with(['roles', 'pessoa'])->find($id);
-        } catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -96,13 +97,13 @@ class UsuarioRepository implements UsuarioInterface
             $usuario->email = $params->email;
             $usuario->status = $params->status;
 
-            if ($params->password){
+            if ($params->password) {
                 Hash::make($params->password);
             } else {
                 unset($params->password);
             }
 
-            if (!empty($params->image)){
+            if (!empty($params->image)) {
                 $usuario->image = $params->image;
             }
 
@@ -112,7 +113,7 @@ class UsuarioRepository implements UsuarioInterface
             }
 
             return $usuario;
-        } catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -128,8 +129,13 @@ class UsuarioRepository implements UsuarioInterface
             $usuario = User::find($id);
             $usuario->delete();
 
+            $pessoa = Pessoa::where('usuario_id', $usuario->id)->first();
+            if ($pessoa) {
+                $pessoa->delete();
+            }
+
             return $usuario;
-        } catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }

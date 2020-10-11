@@ -64,7 +64,7 @@ class PessoaController extends Controller
     {
         try {
             $pessoa = $this->pessoaRepository->getById($id);
-            return response()->json(['pessoa' => $pessoa]);
+            return response()->json($pessoa);
         } catch (Exception $e) {
             return response()->json(['message' => 'Dados não encontrados!']);
         }

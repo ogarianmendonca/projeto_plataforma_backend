@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static find($id)
+ * @method static where(string $string, $id)
+ * @method static truncate()
+ * @method static create(array $array)
  */
 class Pessoa extends Model
 {

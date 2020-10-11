@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static where(string $string, string $string1)
+ * @method static truncate()
+ * @method static create(array $array)
  */
 class Role extends Model
 {
