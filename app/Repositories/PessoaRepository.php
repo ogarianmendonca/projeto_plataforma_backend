@@ -70,7 +70,7 @@ class PessoaRepository implements PessoaInterface
 
             return $novaPessoa;
         } catch (Exception $e){
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 
@@ -84,7 +84,7 @@ class PessoaRepository implements PessoaInterface
         try {
             return Pessoa::with(['usuario'])->find($id);
         } catch (Exception $e){
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 
@@ -102,7 +102,7 @@ class PessoaRepository implements PessoaInterface
 
             return $pessoa;
         } catch (Exception $e){
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 
@@ -119,7 +119,7 @@ class PessoaRepository implements PessoaInterface
 
             return $pessoa;
         } catch (Exception $e){
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 }

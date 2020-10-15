@@ -38,7 +38,7 @@ class RoleRepository implements RoleInterface
         try {
             return Role::all();
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 }

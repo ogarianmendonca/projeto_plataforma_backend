@@ -39,7 +39,7 @@ class RoleController extends Controller
             $roles = $this->roleRepository->getAll();
             return response()->json($roles);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Dados não encontrados!']);
+            return response()->json(['message' => 'Dados não encontrados!'], 404);
         }
     }
 }

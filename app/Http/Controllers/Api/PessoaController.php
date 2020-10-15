@@ -38,7 +38,7 @@ class PessoaController extends Controller
             $pessoa = $this->pessoaRepository->getAll();
             return response()->json($pessoa);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Dados não encontrados!']);
+            return response()->json(['message' => 'Dados não encontrados!'], 404);
         }
     }
 
@@ -52,7 +52,7 @@ class PessoaController extends Controller
             $pessoa = $this->pessoaRepository->create($request);
             return response()->json(['message' => 'Cadastrado com sucesso!', 'pessoa' => $pessoa]);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Erro ao cadastrar!']);
+            return response()->json(['message' => 'Erro ao cadastrar!'], 400);
         }
     }
 
@@ -66,7 +66,7 @@ class PessoaController extends Controller
             $pessoa = $this->pessoaRepository->getById($id);
             return response()->json($pessoa);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Dados não encontrados!']);
+            return response()->json(['message' => 'Dados não encontrados!'], 404);
         }
     }
 
@@ -81,7 +81,7 @@ class PessoaController extends Controller
             $pessoa = $this->pessoaRepository->update($request, $id);
             return response()->json(['message' => 'Editado com sucesso!', 'pessoa' => $pessoa]);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Erro ao editar!']);
+            return response()->json(['message' => 'Erro ao editar!'], 400);
         }
     }
 
@@ -95,7 +95,7 @@ class PessoaController extends Controller
             $pessoa = $this->pessoaRepository->delete($id);
             return response()->json(['message' => 'Excluído com sucesso!', 'pessoa' => $pessoa]);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Erro ao excluir!']);
+            return response()->json(['message' => 'Erro ao excluir!'], 400);
         }
     }
 }

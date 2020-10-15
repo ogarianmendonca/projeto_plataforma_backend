@@ -32,10 +32,10 @@ Route::group(['middleware' => 'apiJwt', 'prefix' => 'auth'], function () {
  */
 Route::group(['middleware' => 'apiJwt', 'prefix' => 'usuarios'], function () {
     Route::get('', 'Api\UsuarioController@index');
-    Route::post('store', 'Api\UsuarioController@store');
+    Route::post('store', 'Api\UsuarioController@store')->middleware('checkRole');
     Route::get('show/{id}', 'Api\UsuarioController@show');
-    Route::put('update/{id}', 'Api\UsuarioController@update');
-    Route::delete('delete/{id}', 'Api\UsuarioController@destroy');
+    Route::put('update/{id}', 'Api\UsuarioController@update')->middleware('checkUserProfile');
+    Route::delete('delete/{id}', 'Api\UsuarioController@destroy')->middleware('checkRole');
     Route::post('upload', 'Api\UsuarioController@upload');
 });
 
@@ -44,10 +44,10 @@ Route::group(['middleware' => 'apiJwt', 'prefix' => 'usuarios'], function () {
  */
 Route::group(['middleware' => 'apiJwt', 'prefix' => 'pessoas'], function () {
     Route::get('', 'Api\PessoaController@index');
-    Route::post('store', 'Api\PessoaController@store');
+    Route::post('store', 'Api\PessoaController@store')->middleware('checkRole');
     Route::get('show/{id}', 'Api\PessoaController@show');
-    Route::put('update/{id}', 'Api\PessoaController@update');
-    Route::delete('delete/{id}', 'Api\PessoaController@destroy');
+    Route::put('update/{id}', 'Api\PessoaController@update')->middleware('checkUserProfile');
+    Route::delete('delete/{id}', 'Api\PessoaController@destroy')->middleware('checkRole');
 });
 
 /**

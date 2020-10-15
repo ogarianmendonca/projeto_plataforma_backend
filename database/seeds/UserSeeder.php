@@ -20,7 +20,9 @@ class UserSeeder extends Seeder
         DB::table('role_user')->truncate();
 
         $adminRole = Role::where('name', 'ADMINISTRADOR')->first();
+        $coordenadorRole = Role::where('name', 'COORDENADOR')->first();
         $userRole = Role::where('name', 'USUARIO')->first();
+        $clienteRole = Role::where('name', 'CLIENTE')->first();
 
         $admin = User::create([
             'name' => 'Luigi Bros',
@@ -39,7 +41,11 @@ class UserSeeder extends Seeder
         ]);
 
         $admin->roles()->attach($adminRole);
+        $admin->roles()->attach($coordenadorRole);
         $admin->roles()->attach($userRole);
+        $admin->roles()->attach($clienteRole);
+
         $user->roles()->attach($userRole);
+        $user->roles()->attach($clienteRole);
     }
 }

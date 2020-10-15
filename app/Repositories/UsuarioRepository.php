@@ -41,7 +41,7 @@ class UsuarioRepository implements UsuarioInterface
         try {
             return User::with(['roles', 'pessoa'])->get();
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 
@@ -65,7 +65,7 @@ class UsuarioRepository implements UsuarioInterface
 
             return $novoUsuario;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 
@@ -79,7 +79,7 @@ class UsuarioRepository implements UsuarioInterface
         try {
             return User::with(['roles', 'pessoa'])->find($id);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 
@@ -114,7 +114,7 @@ class UsuarioRepository implements UsuarioInterface
 
             return $usuario;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 
@@ -136,7 +136,7 @@ class UsuarioRepository implements UsuarioInterface
 
             return $usuario;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception();
         }
     }
 

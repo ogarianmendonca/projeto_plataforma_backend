@@ -20,7 +20,17 @@ class RolesSeeder extends Seeder
         ]);
 
         Role::create([
+            'name' => 'COORDENADOR',
+            'status' => true
+        ]);
+
+        Role::create([
             'name' => 'USUARIO',
+            'status' => true
+        ]);
+
+        Role::create([
+            'name' => 'CLIENTE',
             'status' => true
         ]);
     }

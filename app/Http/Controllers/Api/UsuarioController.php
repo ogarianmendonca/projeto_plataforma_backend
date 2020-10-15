@@ -39,7 +39,7 @@ class UsuarioController extends Controller
             $users = $this->usuarioRepository->getAll();
             return response()->json($users);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Dados não encontrados!']);
+            return response()->json(['message' => 'Dados não encontrados!'], 404);
         }
     }
 
@@ -53,7 +53,7 @@ class UsuarioController extends Controller
             $user = $this->usuarioRepository->create($request);
             return response()->json(['message' => 'Cadastrado com sucesso!', 'user' => $user]);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Erro ao cadastrar!']);
+            return response()->json(['message' => 'Erro ao cadastrar!'], 400);
         }
     }
 
@@ -67,7 +67,7 @@ class UsuarioController extends Controller
             $user = $this->usuarioRepository->getById($id);
             return response()->json($user);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Dados não encontrados!']);
+            return response()->json(['message' => 'Dados não encontrados!'], 404);
         }
     }
 
@@ -82,7 +82,7 @@ class UsuarioController extends Controller
             $user = $this->usuarioRepository->update($request, $id);
             return response()->json(['message' => 'Editado com sucesso!', 'user' => $user]);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Erro ao editar!']);
+            return response()->json(['message' => 'Erro ao editar!'], 400);
         }
     }
 
@@ -96,7 +96,7 @@ class UsuarioController extends Controller
             $user = $this->usuarioRepository->delete($id);
             return response()->json(['message' => 'Excluído com sucesso!', 'user' => $user]);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Erro ao excluir!']);
+            return response()->json(['message' => 'Erro ao excluir!'],400);
         }
     }
 
@@ -110,7 +110,7 @@ class UsuarioController extends Controller
             $retorno = $this->usuarioRepository->upload($request);
             return response()->json(['image' => $retorno]);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Erro ao criar imagem!']);
+            return response()->json(['message' => 'Erro ao criar imagem!'], 400);
         }
     }
 }
