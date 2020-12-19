@@ -27,7 +27,7 @@ class CreatePessoasTable extends Migration
             $table->string('tipo_doc', 3)->nullable();
             $table->string('num_doc')->nullable();
             $table->timestamp('data_nasc')->nullable();
-            $table->char('sexo')->nullable();
+            $table->string('sexo')->nullable();
             $table->string('telefone', 11)->nullable();
             $table->timestamps();
             $table->softDeletes('deleted_at');

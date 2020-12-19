@@ -6,6 +6,7 @@ use App\Entities\Pessoa;
 use App\Entities\User;
 use App\Interfaces\UsuarioInterface;
 use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -33,13 +34,13 @@ class UsuarioRepository implements UsuarioInterface
     }
 
     /**
-     * @return Builder[]|Collection
+     * @return LengthAwarePaginator
      * @throws Exception
      */
     public function getAll()
     {
         try {
-            return User::with(['roles', 'pessoa'])->get();
+            return User::with(['roles', 'pessoa'])->paginate(10);
         } catch (Exception $e) {
             throw new Exception();
         }
