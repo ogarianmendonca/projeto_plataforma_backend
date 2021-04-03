@@ -40,7 +40,9 @@ class UsuarioRepository implements UsuarioInterface
     public function getAll()
     {
         try {
-            return User::with(['roles', 'pessoa'])->paginate(10);
+            return User::with(['roles', 'pessoa'])
+                ->orderBy('name', 'asc')
+                ->paginate(10);
         } catch (Exception $e) {
             throw new Exception();
         }
